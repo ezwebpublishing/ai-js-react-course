@@ -118,33 +118,6 @@ complete/
 
 ---
 
-## GitHub 관리 방식
-
-이 저장소는 다음 방식으로 관리합니다.
-
-**GitHub 저장소 1개 + 차시별 독립 폴더 + Section 단위 Release**
-
-### 기본 원칙
-
-- 차시별 코드는 각각의 폴더에서 관리
-- `node_modules`는 저장소에 포함하지 않음
-- 미완성본과 완성본은 차시 폴더 안에서 관리
-- Git commit은 작업 이력 관리에 사용
-- Release는 차시마다 만들지 않고 Section 완료 시점에 생성
-- 전체 과정 완료 시 최종 Release 생성
-
-Release 예시는 다음과 같습니다.
-
-```text
-v1.0-section01-complete
-v2.0-section02-complete
-v3.0-section03-complete
-v4.0-section04-complete
-v5.0-final
-```
-
----
-
 ## 권장 실습 흐름
 
 ```text
