@@ -14,7 +14,16 @@ console.log("07차시: 객체 이해하기");
 // category: "전자제품"
 // isBest: true
 // hasStock: true
-
+const product = {
+  name: "무선 헤드폰",
+  description: "가볍게 즐기는 데일리 무선 헤드폰",
+  price: 89000,
+  discountRate: 20,
+  category: "전자제품",
+  isBest: true,
+  hasStock: true,
+};
+console.log(product.name);
 
 let count = 0;
 
@@ -27,7 +36,11 @@ let count = 0;
 // 1) 무선 헤드폰 / 89000 / 전자제품
 // 2) 스마트 워치 / 129000 / 전자제품
 // 3) 블루투스 스피커 / 59000 / 음향기기
-
+const recommendedProducts = [
+  { name: "무선 헤드폰", price: 89000, category: "전자제품" },
+  { name: "스마트 워치", price: 129000, category: "전자제품" },
+  { name: "블루투스 스피커", price: 59000, category: "음향기기" },
+];
 
 // TODO 03
 // console.log()로 아래 값을 확인하세요.
@@ -35,7 +48,7 @@ let count = 0;
 // 2. product.name
 // 3. recommendedProducts[0]
 // 4. recommendedProducts[0].name
-
+console.log(recommendedProducts[0]);
 
 // 1. HTML 요소를 선택합니다.
 const badge = document.querySelector("#badge");
@@ -98,8 +111,28 @@ function getStockText(stock) {
 
 function renderProduct(productData) {
   // 여기에 코드를 작성하세요.
-}
+  const finalPrice = calculateDiscountPrice(productData.price, productData.discountRate);
+  productNameElement.textContent = productData.name;
+  productDescriptionElement.textContent = productData.description;
+  priceElement.textContent = formatPrice(productData.price);
+  finalPriceElement.textContent = formatPrice(finalPrice);
+  categoryMessage.textContent = `카테고리: ${productData.category}`;
 
+  if (productData.isBest) {
+    badge.textContent = "BEST";
+  } else {
+    badge.textContent = "NORMAL";
+  }
+
+  if (productData.discountRate > 0) {
+    discountBadge.textContent = `${productData.discountRate}% SALE`;
+    discountBadge.classList.remove("hidden");
+  } else {
+    discountBadge.classList.add("hidden");
+  }
+  deliveryMessage.textContent = getDeliveryText(finalPrice);
+  stockMessage.textContent = getStockText(productData.hasStock);
+}
 
 // TODO 05
 // 추천 상품 객체 배열을 화면에 출력하는 함수를 완성하세요.
@@ -115,6 +148,20 @@ function renderProduct(productData) {
 
 function renderRecommendList() {
   // 여기에 코드를 작성하세요.
+  recommendList.innerHTML = "";
+  for (let i = 0; i < recommendedProducts.length; i++) {
+    const productItem = recommendedProducts[i];
+
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <strong>${productItem.name}</strong>
+      <div class="product-meta">
+        ${formatPrice(productItem.price)} - ${productItem.category}
+      </div>
+    `;
+    recommendList.appendChild(li);
+  }
+  productCount.textContent = recommendedProducts.length;
 }
 
 function updateLikeMessage() {
@@ -134,11 +181,11 @@ function resetLike() {
 
 // TODO 06
 // renderProduct(product)를 호출하세요.
-
+renderProduct(product);
 
 // TODO 07
 // renderRecommendList()를 호출하세요.
-
+renderRecommendList();
 
 // TODO 08
 // addProductBtn 클릭 이벤트를 등록하세요.
@@ -151,13 +198,23 @@ function resetLike() {
 // }
 //
 // 추가 후 renderRecommendList()를 다시 호출하세요.
-
+addProductBtn.addEventListener("click", () => {
+  recommendedProducts.push({
+    name: "기계식 키보드",
+    price: 79000,
+    category: "컴퓨터 주변기기",
+  });
+  renderRecommendList();
+});
 
 // TODO 09
 // removeProductBtn 클릭 이벤트를 등록하세요.
 // 클릭하면 recommendedProducts 배열의 마지막 값을 pop()으로 삭제하고,
 // renderRecommendList()를 다시 호출하세요.
-
+removeProductBtn.addEventListener("click", () => {
+  recommendedProducts.pop();
+  renderRecommendList();
+});
 
 // 3. 기존 찜하기 기능
 likeBtn.addEventListener("click", () => {

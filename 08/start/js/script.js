@@ -41,17 +41,36 @@ const recommendedProducts = [
 // TODO 01
 // for 반복문을 사용해 recommendedProducts의 상품명을 콘솔에 출력하세요.
 // 출력 예: console.log("for:", recommendedProducts[i].name);
-
+for (let i = 0; i < recommendedProducts.length; i++) {
+  console.log("for:", recommendedProducts[i].name);
+}
 
 // TODO 02
 // forEach()를 사용해 recommendedProducts의 상품명을 콘솔에 출력하세요.
 // 출력 예: console.log("forEach:", productItem.name);
 
+/*
+recommendedProducts.forEach(function (item, idx, all) {
+  console.log("forEach:", idx, item.name);
+  console.log("forEach:", all);
+});
+*/
+
+recommendedProducts.forEach((item, idx, all) => {
+  console.log("forEach:", idx, item.name);
+  console.log("forEach:", all);
+});
 
 // TODO 03
 // map()을 사용해 상품명만 담긴 새로운 배열 productNames를 만드세요.
 // 그리고 productNames를 console.log()로 확인하세요.
-
+/*
+const productNames = recommendedProducts.map(productItem => {
+  return productItem.name;
+});
+*/
+const productNames = recommendedProducts.map(productItem => productItem.name);
+console.log(productNames);
 
 // 3. HTML 요소를 선택합니다.
 const badge = document.querySelector("#badge");
@@ -100,10 +119,7 @@ function getStockText(stock) {
 }
 
 function renderProduct(productData) {
-  const finalPrice = calculateDiscountPrice(
-    productData.price,
-    productData.discountRate
-  );
+  const finalPrice = calculateDiscountPrice(productData.price, productData.discountRate);
 
   productNameElement.textContent = productData.name;
   productDescriptionElement.textContent = productData.description;
@@ -157,6 +173,18 @@ function renderProduct(productData) {
 
 function renderRecommendList() {
   // 여기에 코드를 작성하세요.
+  recommendList.innerHTML = "";
+  recommendedProducts.forEach((productItem, index) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <strong>${index + 1} ${productItem.name}</strong>
+      <div class="product-meta">
+        ${formatPrice(productItem.price)} - ${productItem.category}
+      </div>
+    `;
+    recommendList.appendChild(li);
+  });
+  productCount.textContent = recommendedProducts.length;
 }
 
 // TODO 05
@@ -171,11 +199,29 @@ function renderRecommendList() {
 
 function renderProductCards() {
   // 여기에 코드를 작성하세요.
+  const cardHTML = recommendedProducts.map(productItem => {
+    const finalPrice = calculateDiscountPrice(productItem.price, productItem.discountRate);
+
+    return `
+    <article class="mini-card">
+      <strong>${productItem.name}</strong>
+        <div class="product-meta">
+          ${formatPrice(productItem.price)} - ${productItem.category}
+        </div>
+    </article>
+    `;
+  });
+  console.log(cardHTML);
+  productCards.innerHTML = cardHTML.join("");
 }
 
 // TODO 06
 // renderRecommendList()와 renderProductCards()를 한 번에 호출하는
 // renderAllLists 함수를 만드세요.
+function renderAllLists() {
+  renderRecommendList();
+  renderProductCards();
+}
 
 function updateLikeMessage() {
   if (count >= 3) {
@@ -194,10 +240,10 @@ function resetLike() {
 
 // 5. 초기 화면 출력
 renderProduct(product);
+renderAllLists();
 
 // TODO 07
 // renderAllLists() 함수를 호출하세요.
-
 
 // TODO 08
 // addProductBtn 클릭 이벤트를 등록하세요.
@@ -212,12 +258,10 @@ renderProduct(product);
 //
 // 추가 후 renderAllLists()를 다시 호출하세요.
 
-
 // TODO 09
 // removeProductBtn 클릭 이벤트를 등록하세요.
 // 클릭하면 recommendedProducts 배열의 마지막 값을 pop()으로 삭제하고,
 // renderAllLists()를 다시 호출하세요.
-
 
 // 6. 기존 찜하기 기능
 likeBtn.addEventListener("click", () => {

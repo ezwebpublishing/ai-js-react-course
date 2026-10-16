@@ -17,14 +17,16 @@ let count = 0;
 // 추천 상품명을 배열로 저장하세요.
 // 배열 이름: recommendedProducts
 // 값: "무선 헤드폰", "스마트 워치", "블루투스 스피커"
-
+const recommendedProducts = ["무선 헤드폰", "스마트 워치", "블루투스 스피커"];
 
 // TODO 02
 // console.log()로 아래 값을 확인하세요.
 // 1. recommendedProducts 전체
 // 2. recommendedProducts[0]
 // 3. recommendedProducts.length
-
+console.log(recommendedProducts);
+console.log(recommendedProducts[0]);
+console.log(recommendedProducts.length);
 
 // 2. HTML 요소를 선택합니다.
 const badge = document.querySelector("#badge");
@@ -121,6 +123,15 @@ function renderProduct() {
 // 5. recommendList에 li 추가
 // 6. productCount에 배열의 길이 출력
 
+function renderRecommendList() {
+  recommendList.innerHTML = "";
+  for (let i = 0; i < recommendedProducts.length; i++) {
+    const li = document.createElement("li");
+    li.textContent = `${i + 1}.${recommendedProducts[i]}`;
+    recommendList.appendChild(li);
+  }
+  productCount.textContent = recommendedProducts.length;
+}
 
 function updateLikeMessage() {
   if (count >= 3) {
@@ -142,19 +153,25 @@ renderProduct();
 
 // TODO 04
 // renderRecommendList() 함수를 호출하세요.
-
+renderRecommendList();
 
 // TODO 05
 // addProductBtn 클릭 이벤트를 등록하세요.
 // 클릭하면 recommendedProducts 배열에 "기계식 키보드"를 push()로 추가하고,
 // renderRecommendList()를 다시 호출하세요.
-
+addProductBtn.addEventListener("click", () => {
+  recommendedProducts.push("기계식 키보드");
+  renderRecommendList();
+});
 
 // TODO 06
 // removeProductBtn 클릭 이벤트를 등록하세요.
 // 클릭하면 recommendedProducts 배열의 마지막 값을 pop()으로 삭제하고,
 // renderRecommendList()를 다시 호출하세요.
-
+removeProductBtn.addEventListener("click", () => {
+  recommendedProducts.pop();
+  renderRecommendList();
+});
 
 // 5. 기존 찜하기 기능
 likeBtn.addEventListener("click", () => {

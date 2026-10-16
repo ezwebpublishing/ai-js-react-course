@@ -6,7 +6,7 @@ const productCount = document.querySelector("#productCount");
 const emptyMessage = document.querySelector("#emptyMessage");
 const statusMessage = document.querySelector("#statusMessage");
 
-export const formatPrice = (price) => `${price.toLocaleString()}원`;
+export const formatPrice = price => `${price.toLocaleString()}원`;
 
 export const calculateDiscountPrice = (price, rate = 0) => {
   const discountAmount = price * (rate / 100);
@@ -55,10 +55,7 @@ export const createProductCardHTML = ({
   `;
 };
 
-export const renderProducts = (
-  productItems,
-  emptyText = "표시할 상품이 없습니다."
-) => {
+export const renderProducts = (productItems, emptyText = "표시할 상품이 없습니다.") => {
   productCount.textContent = productItems.length;
 
   if (productItems.length === 0) {
@@ -69,14 +66,14 @@ export const renderProducts = (
 
   emptyMessage.textContent = "";
 
-  const productHTML = productItems.map((product) => {
+  const productHTML = productItems.map(product => {
     return createProductCardHTML(product);
   });
 
   productList.innerHTML = productHTML.join("");
 };
 
-export const setStatus = (message) => {
+export const setStatus = message => {
   statusMessage.textContent = message;
   statusMessage.classList.add("active");
 };
@@ -89,12 +86,12 @@ export const resetStatus = () => {
 export const clearSelectedCards = () => {
   const cards = document.querySelectorAll(".product-card");
 
-  cards.forEach((card) => {
+  cards.forEach(card => {
     card.classList.remove("selected");
   });
 };
 
-export const selectCard = (card) => {
+export const selectCard = card => {
   clearSelectedCards();
   card.classList.add("selected");
 

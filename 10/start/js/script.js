@@ -36,18 +36,17 @@ let recommendedProducts = [
   },
 ];
 
-const formatPrice = (price) => `${price.toLocaleString()}원`;
+const formatPrice = price => `${price.toLocaleString()}원`;
 
 const calculateDiscountPrice = (price, rate = 0) => {
   const discountAmount = price * (rate / 100);
   return price - discountAmount;
 };
 
-const getDeliveryText = (price) =>
+const getDeliveryText = price =>
   price >= 50000 ? "무료배송 상품입니다." : "배송비 3,000원이 추가됩니다.";
 
-const getStockText = (stock) =>
-  stock ? "구매 가능한 상품입니다." : "현재 품절된 상품입니다.";
+const getStockText = stock => (stock ? "구매 가능한 상품입니다." : "현재 품절된 상품입니다.");
 
 // 기존 HTML 요소 선택
 const badge = document.querySelector("#badge");
@@ -65,19 +64,19 @@ const productCount = document.querySelector("#productCount");
 
 // TODO 01
 // id가 selectionGuide인 요소를 선택하세요.
-
+const selectionGuide = document.querySelector("#selectionGuide");
+console.log(selectionGuide);
 
 // TODO 02
 // id가 selectFirstCardBtn인 버튼을 선택하세요.
-
+const selectFirstCardBtn = document.querySelector("#selectFirstCardBtn");
 
 // TODO 03
 // id가 selectAllCardsBtn인 버튼을 선택하세요.
-
-
+const selectAllCardsBtn = document.querySelector("#selectAllCardsBtn");
 // TODO 04
 // id가 clearSelectionBtn인 버튼을 선택하세요.
-
+const clearSelectionBtn = document.querySelector("#clearSelectionBtn");
 
 const addProductBtn = document.querySelector("#addProductBtn");
 const removeProductBtn = document.querySelector("#removeProductBtn");
@@ -86,16 +85,8 @@ const likeBtn = document.querySelector("#likeBtn");
 const likeCount = document.querySelector("#likeCount");
 const resetBtn = document.querySelector("#resetBtn");
 
-const renderProduct = (productData) => {
-  const {
-    name,
-    description,
-    price,
-    discountRate,
-    category,
-    isBest,
-    hasStock,
-  } = productData;
+const renderProduct = productData => {
+  const { name, description, price, discountRate, category, isBest, hasStock } = productData;
 
   const finalPrice = calculateDiscountPrice(price, discountRate);
 
@@ -147,11 +138,10 @@ const renderRecommendList = () => {
 };
 
 const renderProductCards = () => {
-  const cardHTML = recommendedProducts.map(
-    ({ name, price, category, discountRate }) => {
-      const finalPrice = calculateDiscountPrice(price, discountRate);
+  const cardHTML = recommendedProducts.map(({ name, price, category, discountRate }) => {
+    const finalPrice = calculateDiscountPrice(price, discountRate);
 
-      return `
+    return `
         <article class="mini-card">
           <strong>${name}</strong>
           <span>
@@ -159,8 +149,7 @@ const renderProductCards = () => {
           </span>
         </article>
       `;
-    }
-  );
+  });
 
   productCards.innerHTML = cardHTML.join("");
 };
@@ -171,8 +160,8 @@ const renderAllLists = () => {
 
   // TODO 05
   // selectionGuide 문구를 "아직 선택된 카드가 없습니다."로 변경하세요.
+  selectionGuide.textContent = "아직 선택된 카드가 없습니다.";
 };
-
 
 // 10차시 핵심: HTML 요소를 선택하고 클래스 변경하기
 
@@ -185,9 +174,12 @@ const renderAllLists = () => {
 // 3. selectionGuide 문구를 "선택이 해제되었습니다."로 변경
 
 const clearSelectedCards = () => {
-
+  const allCards = document.querySelectorAll(".mini-card");
+  allCards.forEach(card => {
+    card.classList.remove("selected");
+  });
+  selectionGuide.textContent = "선택이 해제되었습니다.";
 };
-
 
 // TODO 07
 // selectFirstCard 함수를 완성하세요.
@@ -199,9 +191,13 @@ const clearSelectedCards = () => {
 // 4. selectionGuide 문구를 "첫 번째 상품 카드가 선택되었습니다."로 변경
 
 const selectFirstCard = () => {
-
+  clearSelectedCards();
+  const firstCard = document.querySelector(".mini-card");
+  if (firstCard) {
+    firstCard.classList.add("selected");
+    selectionGuide.textContent = "첫 번째 상품 카드가 선택되었습니다.";
+  }
 };
-
 
 // TODO 08
 // selectAllCards 함수를 완성하세요.
@@ -212,15 +208,17 @@ const selectFirstCard = () => {
 // 3. selectionGuide 문구에 선택된 카드 개수 출력
 
 const selectAllCards = () => {
+  const allCards = document.querySelectorAll(".mini-card");
 
+  allCards.forEach(card => {
+    card.classList.add("selected");
+  });
+  selectionGuide.textContent = `전체 ${allCards.length}개의 상품 카드가 선택되었습니다.`;
 };
-
 
 const updateLikeMessage = () => {
   message.textContent =
-    count >= 3
-      ? "이 상품을 많이 관심 있어 하시네요!"
-      : `이 상품을 ${count}번 찜했습니다.`;
+    count >= 3 ? "이 상품을 많이 관심 있어 하시네요!" : `이 상품을 ${count}번 찜했습니다.`;
 };
 
 const resetLike = () => {
@@ -256,15 +254,22 @@ removeProductBtn.addEventListener("click", () => {
 
 // TODO 09
 // selectFirstCardBtn 클릭 이벤트를 등록하고 selectFirstCard 함수를 호출하세요.
-
+selectFirstCardBtn.addEventListener("click", () => {
+  selectFirstCard();
+});
 
 // TODO 10
 // selectAllCardsBtn 클릭 이벤트를 등록하고 selectAllCards 함수를 호출하세요.
 
+selectAllCardsBtn.addEventListener("click", () => {
+  selectAllCards();
+});
 
 // TODO 11
 // clearSelectionBtn 클릭 이벤트를 등록하고 clearSelectedCards 함수를 호출하세요.
-
+clearSelectionBtn.addEventListener("click", () => {
+  clearSelectedCards();
+});
 
 // 기존 찜하기 기능
 likeBtn.addEventListener("click", () => {

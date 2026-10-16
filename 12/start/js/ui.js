@@ -6,7 +6,7 @@ const productCount = document.querySelector("#productCount");
 const emptyMessage = document.querySelector("#emptyMessage");
 const statusMessage = document.querySelector("#statusMessage");
 
-export const formatPrice = (price) => `${price.toLocaleString()}원`;
+export const formatPrice = price => `${price.toLocaleString()}원`;
 
 export const calculateDiscountPrice = (price, rate = 0) => {
   const discountAmount = price * (rate / 100);
@@ -39,7 +39,7 @@ export const createProductCardHTML = ({
   `;
 };
 
-export const renderProducts = (productItems) => {
+export const renderProducts = productItems => {
   productCount.textContent = productItems.length;
 
   if (productItems.length === 0) {
@@ -50,14 +50,14 @@ export const renderProducts = (productItems) => {
 
   emptyMessage.textContent = "";
 
-  const productHTML = productItems.map((product) => {
+  const productHTML = productItems.map(product => {
     return createProductCardHTML(product);
   });
 
   productList.innerHTML = productHTML.join("");
 };
 
-export const setStatus = (message) => {
+export const setStatus = message => {
   statusMessage.textContent = message;
   statusMessage.classList.add("active");
 };
@@ -65,12 +65,12 @@ export const setStatus = (message) => {
 export const clearSelectedCards = () => {
   const cards = document.querySelectorAll(".product-card");
 
-  cards.forEach((card) => {
+  cards.forEach(card => {
     card.classList.remove("selected");
   });
 };
 
-export const selectCard = (card) => {
+export const selectCard = card => {
   clearSelectedCards();
   card.classList.add("selected");
 
@@ -86,7 +86,11 @@ export const selectCard = (card) => {
 // 2. forEach로 각 card의 highlight, dimmed 클래스 제거
 
 export const clearCardStyles = () => {
-
+  const cards = document.querySelectorAll(".product-card");
+  cards.forEach(c => {
+    c.classList.remove("highlight");
+    c.classList.remove("dimmed");
+  });
 };
 
 // TODO 02
@@ -103,7 +107,19 @@ export const clearCardStyles = () => {
 // 힌트: classList.toggle("highlight", isMatch)
 
 export const applyCardStyles = ({ keyword, category }) => {
+  const cards = document.querySelectorAll(".product-card");
+  const lowerKeyword = keyword.trim().toLowerCase();
 
+  cards.forEach(c => {
+    const cardName = c.dataset.name.toLowerCase();
+    const cardCategory = c.dataset.category;
+    const isKeywordMatch = lowerKeyword === "" || cardName.includes(lowerKeyword);
+    const isCategoryMatch = category === "전체" || cardCategory === category;
+
+    const isMatch = isKeywordMatch && isCategoryMatch;
+    c.classList.toggle("highlight", isMatch);
+    c.classList.toggle("dimmed", !isMatch);
+  });
 };
 
 // TODO 03
@@ -114,5 +130,6 @@ export const applyCardStyles = ({ keyword, category }) => {
 // 2. active 클래스 제거
 
 export const resetStatus = () => {
-
+  statusMessage.textContent = "검색어를 입력하거나 카테고리를 선택해보세요";
+  statusMessage.classList.remove("active");
 };

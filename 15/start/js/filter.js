@@ -5,8 +5,8 @@
 // normalizeText 함수를 완성하세요.
 // trim()과 toLowerCase()를 사용합니다.
 
-export const normalizeText = (text) => {
-
+export const normalizeText = text => {
+  return text.trim().toLowerCase();
 };
 
 // TODO 02
@@ -24,9 +24,17 @@ export const normalizeText = (text) => {
 // 5. 그렇지 않으면 product.category === category 확인
 // 6. 두 조건을 모두 만족하면 true 반환
 
-export const filterProducts = (
-  productItems,
-  { keyword = "", category = "전체" }
-) => {
+export const filterProducts = (productItems, { keyword = "", category = "전체" }) => {
+  const lowerKeyword = normalizeText(keyword);
+  return productItems.filter(product => {
+    const name = normalizeText(product.name);
+    const description = normalizeText(product.description);
 
+    const isKeywordMatch =
+      lowerKeyword === "" || name.includes(lowerKeyword) || description.includes(lowerKeyword);
+
+    const isCategoryMatch = category === "전체" || product.category === category;
+
+    return isKeywordMatch && isCategoryMatch;
+  });
 };

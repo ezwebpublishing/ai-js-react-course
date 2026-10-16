@@ -33,6 +33,11 @@ const resetBtn = document.querySelector("#resetBtn");
 // 매개변수: price
 // return: `${price.toLocaleString()}원`
 
+function formatPrice(price) {
+  return `${price.toLocaleString()}원`;
+}
+
+console.log(formatPrice(3838383));
 
 // TODO 02
 // 상품 가격과 할인율을 받아 최종 가격을 계산하는 함수를 만드세요.
@@ -42,6 +47,10 @@ const resetBtn = document.querySelector("#resetBtn");
 // const discountAmount = price * (rate / 100);
 // return price - discountAmount;
 
+function calculateDiscountPrice(price, rate) {
+  const discountAmount = price * (rate / 100);
+  return price - discountAmount;
+}
 
 // TODO 03
 // 최종 가격을 받아 배송 문구를 반환하는 함수를 만드세요.
@@ -50,6 +59,12 @@ const resetBtn = document.querySelector("#resetBtn");
 // price가 50000 이상이면 "무료배송 상품입니다."
 // 그렇지 않으면 "배송비 3,000원이 추가됩니다."
 
+function getDeliveryText(price) {
+  if (price >= 50000) {
+    return "무료배송 상품입니다.";
+  }
+  return "배송비 3,000원이 추가됩니다.";
+}
 
 // TODO 04
 // 재고 여부를 받아 구매 가능 문구를 반환하는 함수를 만드세요.
@@ -57,7 +72,12 @@ const resetBtn = document.querySelector("#resetBtn");
 // 조건:
 // stock이 true이면 "구매 가능한 상품입니다."
 // 그렇지 않으면 "현재 품절된 상품입니다."
-
+function getStockText(stock) {
+  if (stock) {
+    return "구매 가능한 상품입니다.";
+  }
+  return "현재 품절된 상품입니다.";
+}
 
 // TODO 05
 // 상품 정보를 화면에 출력하는 함수를 만드세요.
@@ -70,7 +90,38 @@ const resetBtn = document.querySelector("#resetBtn");
 // 4. 할인율이 있으면 할인 배지 출력
 // 5. getDeliveryText()로 배송 문구 출력
 // 6. getStockText()로 재고 문구 출력
+function renderProduct() {
+  const finalPrice = calculateDiscountPrice(productPrice, discountRate);
+  productNameElement.textContent = productName;
+  productDescriptionElement.textContent = productDescription;
+  priceElement.textContent = formatPrice(productPrice);
+  finalPriceElement.textContent = finalPrice;
 
+  if (isBest) {
+    badge.textContent = "BEST";
+  } else {
+    badge.textContent = "NORMAL";
+  }
+
+  if (discountRate > 0) {
+    discountBadge.textContent = `${discountRate}% SALE`;
+    discountBadge.classList.remove("hidden");
+  } else {
+    discountBadge.classList.add("hidden");
+  }
+
+  deliveryMessage.textContent = getDeliveryText(finalPrice);
+
+  if (finalPrice >= 50000) {
+    deliveryMessage.classList.add("free");
+    deliveryMessage.classList.remove("paid");
+  } else {
+    deliveryMessage.classList.add("paid");
+    deliveryMessage.classList.remove("free");
+  }
+
+  stockMessage.textContent = getStockText(hasStock);
+}
 
 // TODO 06
 // 찜 횟수에 따라 안내 문구를 변경하는 함수를 만드세요.
@@ -79,6 +130,13 @@ const resetBtn = document.querySelector("#resetBtn");
 // count가 3 이상이면 "이 상품을 많이 관심 있어 하시네요!"
 // 그렇지 않으면 `이 상품을 ${count}번 찜했습니다.`
 
+function updateLikeMessage() {
+  if (count >= 3) {
+    message.textContent = "이 상품을 많이 관심 있어 하시네요!";
+  } else {
+    message.textContent = `이 상품을 ${count}번 찜했습니다.`;
+  }
+}
 
 // TODO 07
 // 찜하기 상태를 초기화하는 함수를 만드세요.
@@ -89,10 +147,17 @@ const resetBtn = document.querySelector("#resetBtn");
 // message를 기본 문구로 변경
 // likeBtn에서 active 클래스 제거
 
+function resetLike() {
+  count = 0;
+  likeCount.textContent = count;
+  message.textContent = "상품 정보가 준비되었습니다.";
+  likeBtn.classList.remove("active");
+}
 
 // TODO 08
 // renderProduct() 함수를 호출하세요.
 
+renderProduct();
 
 // 3. 이벤트 처리
 likeBtn.addEventListener("click", () => {
@@ -102,6 +167,7 @@ likeBtn.addEventListener("click", () => {
 
   // TODO 09
   // updateLikeMessage() 함수를 호출하세요.
+  updateLikeMessage();
 
   likeBtn.classList.add("active");
 });
@@ -109,4 +175,5 @@ likeBtn.addEventListener("click", () => {
 resetBtn.addEventListener("click", () => {
   // TODO 10
   // resetLike() 함수를 호출하세요.
+  resetLike();
 });

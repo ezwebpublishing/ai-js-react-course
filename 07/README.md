@@ -6,23 +6,23 @@
 ## 폴더 구성
 
 ```text
-SECTION02_07_실습코드_객체이해하기/
-├─ 01_미완성본/
-│  └─ ai-js-react-course/
-│     └─ vanilla-js/
-│        ├─ index.html
-│        ├─ css/style.css
-│        ├─ js/script.js
-│        ├─ PROMPTS.md
-│        └─ README.md
-└─ 02_완성본/
-   └─ ai-js-react-course/
-      └─ vanilla-js/
-         ├─ index.html
-         ├─ css/style.css
-         ├─ js/script.js
-         ├─ PROMPTS.md
-         └─ README.md
+07/
+├─ start/
+│  ├─ css/
+│  │  └─ style.css
+│  ├─ js/
+│  │  └─ script.js
+│  ├─ PROMPTS.md
+│  ├─ README.md
+│  └─ index.html
+└─ complete/
+   ├─ css/
+   │  └─ style.css
+   ├─ js/
+   │  └─ script.js
+   ├─ PROMPTS.md
+   ├─ README.md
+   └─ index.html
 ```
 
 ## 수업 진행 방식

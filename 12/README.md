@@ -6,29 +6,29 @@
 ## 폴더 구성
 
 ```text
-SECTION03_12_실습코드_내용스타일변경_구조분리/
-├─ 01_미완성본/
-│  └─ ai-js-react-course/
-│     └─ vanilla-js/
-│        ├─ index.html
-│        ├─ css/style.css
-│        ├─ js/data.js
-│        ├─ js/ui.js
-│        ├─ js/events.js
-│        ├─ js/script.js
-│        ├─ PROMPTS.md
-│        └─ README.md
-└─ 02_완성본/
-   └─ ai-js-react-course/
-      └─ vanilla-js/
-         ├─ index.html
-         ├─ css/style.css
-         ├─ js/data.js
-         ├─ js/ui.js
-         ├─ js/events.js
-         ├─ js/script.js
-         ├─ PROMPTS.md
-         └─ README.md
+12/
+├─ start/
+│  ├─ css/
+│  │  └─ style.css
+│  ├─ js/
+│  │  ├─ data.js
+│  │  ├─ events.js
+│  │  ├─ script.js
+│  │  └─ ui.js
+│  ├─ PROMPTS.md
+│  ├─ README.md
+│  └─ index.html
+└─ complete/
+   ├─ css/
+   │  └─ style.css
+   ├─ js/
+   │  ├─ data.js
+   │  ├─ events.js
+   │  ├─ script.js
+   │  └─ ui.js
+   ├─ PROMPTS.md
+   ├─ README.md
+   └─ index.html
 ```
 
 ## 수업 진행 방식

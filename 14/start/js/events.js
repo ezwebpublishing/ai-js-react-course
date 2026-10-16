@@ -2,19 +2,9 @@
 // events.js: 사용자 이벤트와 검색 흐름을 연결합니다.
 
 import { searchProducts } from "./search.js";
-import {
-  clearSelectedCards,
-  resetStatus,
-  selectCard,
-  setStatus,
-} from "./ui.js";
+import { clearSelectedCards, resetStatus, selectCard, setStatus } from "./ui.js";
 
-export const bindEvents = ({
-  getProducts,
-  render,
-  addProduct,
-  removeLastProduct,
-}) => {
+export const bindEvents = ({ getProducts, render, addProduct, removeLastProduct }) => {
   const productList = document.querySelector("#productList");
   const keywordInput = document.querySelector("#keywordInput");
   const categorySelect = document.querySelector("#categorySelect");
@@ -27,7 +17,7 @@ export const bindEvents = ({
   // 현재 화면에 보여줄 검색 결과 배열을 저장할 변수를 만드세요.
   // 초기값은 getProducts()입니다.
 
-  let currentSearchResult = [];
+  let currentSearchResult = getProducts();
 
   // TODO 04
   // 검색 실행 함수 handleSearch를 완성하세요.
@@ -40,7 +30,14 @@ export const bindEvents = ({
   // 5. 검색어가 없으면 "전체 상품을 표시합니다." 출력
 
   const handleSearch = () => {
-
+    const keyword = keywordInput.value;
+    currentSearchResult = searchProducts(getProducts(), keyword);
+    render(currentSearchResult, "검색 결과가 없습니다");
+    if (keyword.trim()) {
+      setStatus(`"${keyword}" 검색 결과 ${currentSearchResult.length}개`);
+    } else {
+      setStatus("전체 상품을 표시합니다.");
+    }
   };
 
   // TODO 05
@@ -54,10 +51,14 @@ export const bindEvents = ({
   // 5. resetStatus();
 
   const resetSearch = () => {
-
+    keywordInput.value = "";
+    categorySelect.value = "전체";
+    currentSearchResult = getProducts();
+    render(currentSearchResult);
+    resetStatus();
   };
 
-  productList.addEventListener("click", (event) => {
+  productList.addEventListener("click", event => {
     const card = event.target.closest(".product-card");
 
     if (!card) return;
@@ -68,8 +69,11 @@ export const bindEvents = ({
   // TODO 06
   // keywordInput에 input 이벤트를 연결하고 handleSearch를 호출하세요.
 
+  keywordInput.addEventListener("input", () => {
+    handleSearch();
+  });
 
-  categorySelect.addEventListener("change", (event) => {
+  categorySelect.addEventListener("change", event => {
     setStatus(`카테고리 필터는 다음 차시에서 구현합니다. 선택값: ${event.target.value}`);
   });
 
@@ -79,7 +83,7 @@ export const bindEvents = ({
     // TODO 07
     // 상품 추가 후 현재 검색어 기준으로 다시 렌더링하세요.
     // 힌트: handleSearch()
-
+    handleSearch();
     setStatus("상품을 추가하고 현재 검색 조건으로 다시 렌더링했습니다.");
   });
 
@@ -89,7 +93,7 @@ export const bindEvents = ({
     // TODO 08
     // 상품 삭제 후 현재 검색어 기준으로 다시 렌더링하세요.
     // 힌트: handleSearch()
-
+    handleSearch();
     setStatus("마지막 상품을 삭제하고 현재 검색 조건으로 다시 렌더링했습니다.");
   });
 
@@ -100,5 +104,7 @@ export const bindEvents = ({
 
   // TODO 09
   // resetSearchBtn에 click 이벤트를 연결하고 resetSearch를 호출하세요.
-
+  resetSearchBtn.addEventListener("click", () => {
+    resetSearch();
+  });
 };

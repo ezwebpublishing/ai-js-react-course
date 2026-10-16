@@ -11,12 +11,7 @@ import {
   updateActiveCategoryButton,
 } from "./ui.js";
 
-export const bindEvents = ({
-  getProducts,
-  render,
-  addProduct,
-  removeLastProduct,
-}) => {
+export const bindEvents = ({ getProducts, render, addProduct, removeLastProduct }) => {
   const productList = document.querySelector("#productList");
   const keywordInput = document.querySelector("#keywordInput");
   const categoryFilter = document.querySelector("#categoryFilter");
@@ -29,13 +24,13 @@ export const bindEvents = ({
   // 현재 선택된 카테고리 상태를 저장하세요.
   // 초기값: "전체"
 
-  let selectedCategory = "";
+  let selectedCategory = "전체";
 
   // TODO 04
   // 현재 필터 결과를 저장할 currentResult를 만드세요.
   // 초기값: getProducts()
 
-  let currentResult = [];
+  let currentResult = getProducts();
 
   // TODO 05
   // applyFilters 함수를 완성하세요.
@@ -49,7 +44,16 @@ export const bindEvents = ({
   // 6. 상태 메시지에 검색어, 카테고리, 결과 개수 출력
 
   const applyFilters = () => {
-
+    currentResult = filterProducts(getProducts(), {
+      keyword: keywordInput.value,
+      category: selectedCategory,
+    });
+    render(currentResult, "조건에 맞는 상품이 없습니다.");
+    const keyword = keywordInput.value.trim();
+    const keywordText = keyword ? `검색어 "${keyword}"` : "검색어 없음";
+    setStatus(
+      `검색어 ${keywordText} · 카테고리 ${selectedCategory} · 결과 ${currentResult.length}개`,
+    );
   };
 
   // TODO 06
@@ -64,10 +68,15 @@ export const bindEvents = ({
   // 6. resetStatus()
 
   const resetFilters = () => {
-
+    keywordInput.value = "";
+    selectedCategory = "전체";
+    resetCategoryButtons();
+    currentResult = getProducts();
+    render(currentResult);
+    resetStatus();
   };
 
-  productList.addEventListener("click", (event) => {
+  productList.addEventListener("click", event => {
     const card = event.target.closest(".product-card");
 
     if (!card) return;
@@ -77,7 +86,9 @@ export const bindEvents = ({
 
   // TODO 07
   // keywordInput의 input 이벤트에서 applyFilters()를 호출하세요.
-
+  keywordInput.addEventListener("input", () => {
+    applyFilters();
+  });
 
   // TODO 08
   // categoryFilter에 click 이벤트를 연결하세요.
@@ -89,12 +100,20 @@ export const bindEvents = ({
   // 4. updateActiveCategoryButton(button)
   // 5. applyFilters()
 
+  categoryFilter.addEventListener("click", event => {
+    const button = event.target.closest(".category-button");
+    if (!button) return;
+    selectedCategory = button.dataset.category;
+    updateActiveCategoryButton(button);
+    applyFilters();
+  });
 
   addProductBtn.addEventListener("click", () => {
     addProduct();
 
     // TODO 09
     // 상품 추가 후 현재 필터 조건을 다시 적용하세요.
+    applyFilters();
   });
 
   removeProductBtn.addEventListener("click", () => {
@@ -102,6 +121,7 @@ export const bindEvents = ({
 
     // TODO 10
     // 상품 삭제 후 현재 필터 조건을 다시 적용하세요.
+    applyFilters();
   });
 
   clearSelectionBtn.addEventListener("click", () => {
@@ -111,5 +131,7 @@ export const bindEvents = ({
 
   // TODO 11
   // resetFilterBtn 클릭 이벤트를 연결하고 resetFilters()를 호출하세요.
-
+  resetFilterBtn.addEventListener("click", () => {
+    resetFilters();
+  });
 };

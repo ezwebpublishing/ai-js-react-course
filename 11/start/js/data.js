@@ -37,7 +37,15 @@ export let products = [
 // 새 상품 객체를 만들고 spread 문법으로 products 배열에 추가하세요.
 
 export const addProduct = () => {
-
+  const newProduct = {
+    name: "기계식 키보드",
+    description: "타건감이 좋은 데스크용 키보드",
+    price: 79000,
+    category: "컴퓨터 주변기기",
+    discountRate: 15,
+    hasStock: true,
+  };
+  products = [...products, newProduct];
 };
 
 // TODO 03
@@ -45,5 +53,5 @@ export const addProduct = () => {
 // slice(0, -1)을 사용해 마지막 상품을 제외한 새 배열을 만드세요.
 
 export const removeLastProduct = () => {
-
+  products = products.slice(0, -1);
 };

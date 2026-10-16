@@ -1,9 +1,22 @@
-export function getFilteredProducts(products, keyword, selectedCategory, maxPrice, isInvalidPrice) {
-  // TODO: 29차시 App.jsx에 있던 필터 계산 로직을 이 함수로 옮겨보세요.
-  return products
+export function getFilteredProducts(products, keyword, selectedCategory, maxPrice) {
+  const normalizedKeyword = keyword.trim().toLowerCase()
+  const hasInvalidPrice = maxPrice !== '' && Number(maxPrice) < 0
+
+  if (hasInvalidPrice) return []
+
+  return products.filter((product) => {
+    const matchesKeyword = product.name
+      .toLowerCase()
+      .includes(normalizedKeyword)
+    const matchesCategory =
+      selectedCategory === '전체' || product.category === selectedCategory
+    const matchesPrice =
+      maxPrice === '' || product.price <= Number(maxPrice)
+
+    return matchesKeyword && matchesCategory && matchesPrice
+  })
 }
 
 export function getFavoriteCount(products) {
-  // TODO: 찜한 상품 개수를 계산해 반환하세요.
-  return 0
+  return products.filter((product) => product.isFavorite).length
 }

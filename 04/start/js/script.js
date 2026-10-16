@@ -15,13 +15,18 @@ const productPrice = 89000;
 // isBest: true
 // hasStock: true
 
+const discountRate = 20;
+const isBest = true;
+const hasStock = true;
 
 // TODO 02
 // 연산자를 사용해 할인 금액과 최종 가격을 계산하세요.
 //
 // discountAmount = 상품 가격 * (할인율 / 100)
-// finalPrice = 상품 가격 - 할인 금액
-
+// finalPrice
+const discountAmount = productPrice * (20 / 100);
+const finalPrice = productPrice - discountAmount;
+console.log(finalPrice);
 
 let count = 0;
 
@@ -47,30 +52,47 @@ priceElement.textContent = `${productPrice.toLocaleString()}원`;
 // TODO 03
 // finalPrice를 화면에 출력하세요.
 // 힌트: finalPriceElement.textContent = `${finalPrice.toLocaleString()}원`;
-
+finalPriceElement.textContent = `${finalPrice.toLocaleString()}원`;
 
 // TODO 04
 // isBest가 true이면 badge에 "BEST"를,
 // false이면 "NORMAL"을 출력하세요.
-
+if (isBest) {
+  badge.textContent = "BEST";
+} else {
+  badge.textContent = "NORMAL";
+}
 
 // TODO 05
 // discountRate가 0보다 크면 할인 배지를 보여주세요.
 // 출력 예: "20% SALE"
 // 그렇지 않으면 discountBadge에 hidden 클래스를 추가하세요.
-
+if (discountRate > 0) {
+  discountBadge.textContent = "20% SALE";
+} else {
+  discountBadge.classList.add("hidden");
+}
 
 // TODO 06
 // finalPrice가 50000 이상이면 "무료배송 상품입니다."
 // 아니면 "배송비 3,000원이 추가됩니다."를 출력하세요.
 // 조건에 따라 free 또는 paid 클래스를 추가하세요.
-
+if (finalPrice >= 50000) {
+  deliveryMessage.textContent = "무료배송 상품입니다.";
+} else {
+  deliveryMessage.textContent = "배송비 3,000원이 추가됩니다.";
+}
 
 // TODO 07
 // hasStock이 true이면 "구매 가능한 상품입니다."
 // false이면 "현재 품절된 상품입니다."를 출력하고,
 // soldout 클래스를 추가한 뒤 likeBtn.disabled = true로 설정하세요.
-
+if (hasStock) {
+  stockMessage.textContent = "구매 가능한 상품입니다.";
+} else {
+  stockMessage.textContent = "현재 품절된 상품입니다.";
+  likeBtn.disabled = true;
+}
 
 // 4. 기존 찜하기 기능을 유지합니다.
 likeBtn.addEventListener("click", () => {
@@ -81,6 +103,11 @@ likeBtn.addEventListener("click", () => {
   // TODO 08
   // count가 3 이상이면 "이 상품을 많이 관심 있어 하시네요!"를 출력하고,
   // 그렇지 않으면 기존 찜하기 문구를 출력하세요.
+  if (count > 3) {
+    message.textContent = "이 상품을 많이 관심 있어 하시네요!";
+  } else {
+    message.textContent = `이 상품을 ${count}번 찜했습니다.`;
+  }
 
   likeBtn.classList.add("active");
 });

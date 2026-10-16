@@ -8,8 +8,8 @@
 // 2. toLowerCase()
 // 3. 정리된 문자열 return
 
-export const normalizeText = (text) => {
-
+export const normalizeText = text => {
+  return text.trim().toLowerCase();
 };
 
 // TODO 02
@@ -25,5 +25,14 @@ export const normalizeText = (text) => {
 // 5. name.includes(lowerKeyword) || description.includes(lowerKeyword) 반환
 
 export const searchProducts = (productItems, keyword) => {
+  const lowerKeyword = normalizeText(keyword);
+  if (lowerKeyword === "") {
+    return productItems;
+  }
+  return productItems.filter(product => {
+    const name = normalizeText(product.name);
+    const description = normalizeText(product.description);
 
+    return name.includes(lowerKeyword) || description.includes(lowerKeyword);
+  });
 };

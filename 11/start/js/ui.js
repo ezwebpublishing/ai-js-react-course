@@ -6,7 +6,7 @@ const productCount = document.querySelector("#productCount");
 const emptyMessage = document.querySelector("#emptyMessage");
 const statusMessage = document.querySelector("#statusMessage");
 
-export const formatPrice = (price) => `${price.toLocaleString()}원`;
+export const formatPrice = price => `${price.toLocaleString()}원`;
 
 export const calculateDiscountPrice = (price, rate = 0) => {
   const discountAmount = price * (rate / 100);
@@ -26,7 +26,22 @@ export const createProductCardHTML = ({
   discountRate,
   hasStock,
 }) => {
-
+  const finalPrice = calculateDiscountPrice(price, discountRate);
+  const stockText = hasStock ? "재고 있음" : "품절";
+  return `
+    <article class="product-card" data-name="${name}" data-category="${category}">
+      <div class="card-top">
+        <h3>${name}</h3>
+        <span class="badge ${discountRate > 0 ? "" : "hidden"}">
+          ${discountRate}% SALE
+        </span>
+      </div>
+      <p class="description">${description}</p>
+      <strong class="price">${formatPrice(price)}</strong>
+      <span class="meta">${category}-${stockText}</span>
+      
+    </article>
+  `;
 };
 
 // TODO 05
@@ -37,23 +52,39 @@ export const createProductCardHTML = ({
 // 3. map(createProductCardHTML)로 HTML 배열 생성
 // 4. join("")으로 합쳐 productList.innerHTML에 출력
 
-export const renderProducts = (productItems) => {
+export const renderProducts = productItems => {
+  productCount.textContent = productItems.length;
 
+  if (productItems.length === 0) {
+    productList.innerHTML = "";
+    emptyMessage.textContent = "표시할 상품이 없습니다.";
+    return;
+  }
+  emptyMessage.textContent = "";
+
+  const productHTML = productItems.map(product => {
+    return createProductCardHTML(product);
+  });
+  productList.innerHTML = productHTML.join("");
 };
 
 // TODO 06
 // 상태 메시지를 변경하는 setStatus 함수를 완성하세요.
 // statusMessage.textContent를 바꾸고 active 클래스를 추가합니다.
 
-export const setStatus = (message) => {
-
+export const setStatus = message => {
+  statusMessage.textContent = message;
+  statusMessage.classList.add("active");
 };
 
 // TODO 07
 // 모든 상품 카드에서 selected 클래스를 제거하는 함수를 완성하세요.
 
 export const clearSelectedCards = () => {
-
+  const cards = document.querySelectorAll(".product-card");
+  cards.forEach(card => {
+    card.classList.remove("selected");
+  });
 };
 
 // TODO 08
@@ -61,6 +92,10 @@ export const clearSelectedCards = () => {
 // 기존 선택은 clearSelectedCards()로 해제하고,
 // card.dataset.name을 사용해 상태 메시지를 출력합니다.
 
-export const selectCard = (card) => {
-
+export const selectCard = card => {
+  clearSelectedCards();
+  card.classList.add("selected");
+  // const productName = card.getAttribute('data-name');
+  const productName = card.dataset.name;
+  setStatus(`${productName} 상품을 선택했습니다.`);
 };

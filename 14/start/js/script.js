@@ -12,8 +12,8 @@ const getProducts = () => products;
 // 두 번째 매개변수 emptyText를 받을 수 있게 하고,
 // renderProducts(productItems, emptyText)를 호출합니다.
 
-const render = (productItems) => {
-  renderProducts(productItems);
+const render = (productItems, emptyText) => {
+  renderProducts(productItems, emptyText);
 };
 
 render(getProducts());

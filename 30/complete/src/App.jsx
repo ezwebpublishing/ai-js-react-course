@@ -53,8 +53,7 @@ function App() {
     products,
     keyword,
     selectedCategory,
-    maxPrice,
-    isInvalidPrice
+    maxPrice
   )
 
   const favoriteCount = getFavoriteCount(products)

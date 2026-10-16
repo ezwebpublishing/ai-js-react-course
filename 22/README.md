@@ -7,8 +7,8 @@ React 이벤트와 Form
 onChange, onSubmit, preventDefault(), 입력값 State 관리
 
 ## 구성
-- `01_미완성본`
-- `02_완성본`
+- `start` (미완성본)
+- `complete` (완성본)
 
 ## 이후 차시 내용 선반영 금지
 이번 차시에는 다음 내용을 넣지 않았습니다.

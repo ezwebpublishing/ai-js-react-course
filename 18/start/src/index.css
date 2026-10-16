@@ -65,3 +65,58 @@ h1 {
   margin-bottom: 16px;
   color: #555;
 }
+
+/* 18~19차시: 상품 카드 상태 표현 스타일 */
+.product-card .card-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.product-card .card-top h2 {
+  margin: 0;
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #ffe8e8;
+  color: #e5484d;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.product-card .original-price {
+  margin-right: 8px;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.product-card .stock {
+  margin: 8px 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #2463eb;
+}
+
+.product-card.soldout {
+  opacity: 0.6;
+}
+
+.product-card.soldout .stock {
+  color: #e5484d;
+}
+
+.favorite-button {
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: #222;
+  color: #fff;
+  cursor: pointer;
+}
+
+.favorite-button.active {
+  background: #e5484d;
+}

@@ -10,12 +10,7 @@ import {
   setStatus,
 } from "./ui.js";
 
-export const bindEvents = ({
-  getProducts,
-  render,
-  addProduct,
-  removeLastProduct,
-}) => {
+export const bindEvents = ({ getProducts, render, addProduct, removeLastProduct }) => {
   const productList = document.querySelector("#productList");
   const keywordInput = document.querySelector("#keywordInput");
   const categorySelect = document.querySelector("#categorySelect");
@@ -30,10 +25,13 @@ export const bindEvents = ({
   // applyCardStyles({ keyword: keywordInput.value, category: categorySelect.value }) 호출
 
   const updateCardStyles = () => {
-
+    applyCardStyles({
+      keyword: keywordInput.value,
+      category: categorySelect.value,
+    });
   };
 
-  productList.addEventListener("click", (event) => {
+  productList.addEventListener("click", event => {
     const card = event.target.closest(".product-card");
 
     if (!card) return;
@@ -41,7 +39,7 @@ export const bindEvents = ({
     selectCard(card);
   });
 
-  keywordInput.addEventListener("input", (event) => {
+  keywordInput.addEventListener("input", event => {
     const keyword = event.target.value.trim();
 
     if (keyword) {
@@ -52,15 +50,17 @@ export const bindEvents = ({
 
     // TODO 05
     // 검색어가 바뀔 때 카드 스타일도 다시 적용하세요.
+    updateCardStyles();
   });
 
-  categorySelect.addEventListener("change", (event) => {
+  categorySelect.addEventListener("change", event => {
     const selectedCategory = event.target.value;
 
     setStatus(`선택한 카테고리: ${selectedCategory}`);
 
     // TODO 06
     // 카테고리가 바뀔 때 카드 스타일도 다시 적용하세요.
+    updateCardStyles();
   });
 
   addProductBtn.addEventListener("click", () => {
@@ -69,7 +69,7 @@ export const bindEvents = ({
 
     // TODO 07
     // 상품 추가 후 현재 검색/카테고리 조건을 다시 적용하세요.
-
+    updateCardStyles();
     setStatus("상품을 추가했습니다.");
   });
 
@@ -79,7 +79,7 @@ export const bindEvents = ({
 
     // TODO 08
     // 상품 삭제 후 현재 검색/카테고리 조건을 다시 적용하세요.
-
+    updateCardStyles();
     setStatus("마지막 상품을 삭제했습니다.");
   });
 
@@ -95,5 +95,10 @@ export const bindEvents = ({
   // 2. categorySelect.value = "전체";
   // 3. clearCardStyles();
   // 4. resetStatus();
-
+  resetStyleBtn.addEventListener("click", () => {
+    keywordInput.value = "";
+    categorySelect.value = "전체";
+    clearCardStyles();
+    resetStatus();
+  });
 };

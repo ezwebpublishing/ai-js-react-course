@@ -1,15 +1,19 @@
-export function getFilteredProducts(products, keyword, selectedCategory, maxPrice, isInvalidPrice) {
+export function getFilteredProducts(products, keyword, selectedCategory, maxPrice) {
+  const normalizedKeyword = keyword.trim().toLowerCase()
+  const hasInvalidPrice = maxPrice !== '' && Number(maxPrice) < 0
+
+  if (hasInvalidPrice) return []
+
   return products.filter((product) => {
     const matchesKeyword = product.name
       .toLowerCase()
-      .includes(keyword.trim().toLowerCase())
+      .includes(normalizedKeyword)
 
     const matchesCategory =
       selectedCategory === '전체' || product.category === selectedCategory
 
     const matchesPrice =
-      maxPrice === '' ||
-      (!isInvalidPrice && product.price <= Number(maxPrice))
+      maxPrice === '' || product.price <= Number(maxPrice)
 
     return matchesKeyword && matchesCategory && matchesPrice
   })

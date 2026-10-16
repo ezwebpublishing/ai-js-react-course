@@ -4,7 +4,7 @@ import SearchBar from './components/SearchBar.jsx'
 import FilterPanel from './components/FilterPanel.jsx'
 import ProductDetail from './components/ProductDetail.jsx'
 import ProductList from './components/ProductList.jsx'
-// TODO 1: productUtils.js에서 getFilteredProducts, getFavoriteCount를 import하세요.
+import { getFavoriteCount, getFilteredProducts } from './utils/productUtils.js'
 
 function App() {
   const [products, setProducts] = useState(initialProducts)
@@ -49,24 +49,14 @@ function App() {
     })
   }
 
-  // TODO 2: 아래 필터 계산을 getFilteredProducts 함수 호출로 바꿔보세요.
-  const filteredProducts = products.filter((product) => {
-    const matchesKeyword = product.name
-      .toLowerCase()
-      .includes(keyword.trim().toLowerCase())
+  const filteredProducts = getFilteredProducts(
+    products,
+    keyword,
+    selectedCategory,
+    maxPrice
+  )
 
-    const matchesCategory =
-      selectedCategory === '전체' || product.category === selectedCategory
-
-    const matchesPrice =
-      maxPrice === '' ||
-      (!isInvalidPrice && product.price <= Number(maxPrice))
-
-    return matchesKeyword && matchesCategory && matchesPrice
-  })
-
-  // TODO 3: getFavoriteCount 함수로 찜한 상품 개수를 계산하세요.
-  const favoriteCount = products.filter((product) => product.isFavorite).length
+  const favoriteCount = getFavoriteCount(products)
 
   const hasNoResults = filteredProducts.length === 0
   const statusText = `검색 결과: ${filteredProducts.length}개 / 찜한 상품: ${favoriteCount}개`
