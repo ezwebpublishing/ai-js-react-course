@@ -1,4 +1,4 @@
-const categories = ['전체', '음향', '입력장치', '디스플레이']
+const categories = ["전체", "음향", "입력장치", "디스플레이"];
 
 function FilterPanel({
   selectedCategory,
@@ -10,18 +10,19 @@ function FilterPanel({
   return (
     <div className="filter-panel">
       <input
-        type="number"
+        type="text"
+        inputMode="decimal"
         value={maxPrice}
         placeholder="최대 가격을 입력하세요"
-        onChange={(event) => onMaxPriceChange(event.target.value)}
+        onChange={event => onMaxPriceChange(event.target.value)}
       />
 
       <div className="category-buttons">
-        {categories.map((category) => (
+        {categories.map(category => (
           <button
             key={category}
             type="button"
-            className={selectedCategory === category ? 'active' : ''}
+            className={selectedCategory === category ? "active" : ""}
             onClick={() => onCategoryChange(category)}
           >
             {category}
@@ -29,15 +30,11 @@ function FilterPanel({
         ))}
       </div>
 
-      <button
-        type="button"
-        className="reset-button"
-        onClick={onResetFilters}
-      >
+      <button type="button" className="reset-button" onClick={onResetFilters}>
         필터 초기화
       </button>
     </div>
-  )
+  );
 }
 
-export default FilterPanel
+export default FilterPanel;
