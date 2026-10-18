@@ -82,13 +82,6 @@ http://localhost:5173
 차시에 따라 다음과 같이 구성할 수 있습니다.
 
 ```text
-01_미완성본/
-02_완성본/
-```
-
-또는
-
-```text
 start/
 complete/
 ```
@@ -104,7 +97,7 @@ complete/
 권장 학습 흐름은 다음과 같습니다.
 
 ```text
-미완성본으로 시작
+미완성본으로 시작(차시별 학습노트 참조)
       ↓
 강의를 따라 코드 작성
       ↓
@@ -125,33 +118,6 @@ complete/
 
 ---
 
-## GitHub 관리 방식
-
-이 저장소는 다음 방식으로 관리합니다.
-
-**GitHub 저장소 1개 + 차시별 독립 폴더 + Section 단위 Release**
-
-### 기본 원칙
-
-- 차시별 코드는 각각의 폴더에서 관리
-- `node_modules`는 저장소에 포함하지 않음
-- 미완성본과 완성본은 차시 폴더 안에서 관리
-- Git commit은 작업 이력 관리에 사용
-- Release는 차시마다 만들지 않고 Section 완료 시점에 생성
-- 전체 과정 완료 시 최종 Release 생성
-
-Release 예시는 다음과 같습니다.
-
-```text
-v1.0-section01-complete
-v2.0-section02-complete
-v3.0-section03-complete
-v4.0-section04-complete
-v5.0-final
-```
-
----
-
 ## 권장 실습 흐름
 
 ```text
@@ -159,7 +125,7 @@ v5.0-final
 2. 미완성본 또는 start 폴더 확인
 3. npm install
 4. npm run dev
-5. 강의를 따라 코드 작성
+5. 강의와 학습노트를 따라 코드 작성
 6. 브라우저에서 결과 확인
 7. 완성본 또는 complete 폴더와 비교
 ```
@@ -191,5 +157,6 @@ v5.0-final
 - 상품 탐색 프로젝트
 - Vitest를 이용한 핵심 로직 테스트
 - AI를 활용한 코드 리뷰와 리팩터링
+- vercel 통한 배포
 
 최종적으로 **검색·필터·찜하기·상품 상세 기능을 포함한 React 상품 탐색 프로젝트**를 완성합니다.
